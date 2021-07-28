@@ -1,9 +1,9 @@
 # kickstarter_bot
 
 # Setup Webdriver
-the webdriver included in this folder is for Chrome version 92.
+the chrome driver needed is not included in this repo
 
-If your Chrome version differs, replace with the corresponding webdriver before use.
+To start, download the corresponding webdriver according to your Chrome version from the following site and put it into the project directory.
 
 Goto: https://sites.google.com/a/chromium.org/chromedriver/downloads for downloads.
 
