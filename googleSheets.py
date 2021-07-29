@@ -13,10 +13,7 @@ TARGET_SPREADSHEET_ID = '1SCphwNdUCzVt0FVR7lnzDQXWQ2kA66kT3xDF6sXruNA'
 SAMPLE_RANGE_NAME = 'Sheet1'
 
 
-def upload_to_sheets(values):
-    """Shows basic usage of the Sheets API.
-    Prints values from a sample spreadsheet.
-    """
+def auth():
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -34,33 +31,33 @@ def upload_to_sheets(values):
         # Save the credentials for the next run
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
-
+    # create service to be used for following google sheets ops
     service = build('sheets', 'v4', credentials=creds)
+    return service
 
 
+def upload_to_sheets(values, service):
+    """Shows basic usage of the Sheets API.
+    Prints values from a sample spreadsheet.
+    """
     body = {
         'values': values
     }
 
     # Call the Sheets API
     sheet = service.spreadsheets()
-    result = sheet.values().append(spreadsheetId=TARGET_SPREADSHEET_ID,
+    result = sheet.values().update(spreadsheetId=TARGET_SPREADSHEET_ID,
                                    range=SAMPLE_RANGE_NAME,
                                    body=body,
                                    valueInputOption='RAW'
                                    ).execute()
-    # result = sheet.values().get(spreadsheetId=TARGET_SPREADSHEET_ID,
-    #                             range=SAMPLE_RANGE_NAME).execute()
-    # values = result.get('values', [])
-    #
-    # if not values:
-    #     print('No data found.')
-    # else:
-    #     print('Name, Major:')
-    #     for row in values:
-    #         Print columns A and E, which correspond to indices 0 and 4.
-            # print('%s, %s' % (row[0], row[4]))
 
 
-if __name__ == '__main__':
-    main()
+def read_current_sheet(service):
+    sheet = service.spreadsheets()
+    result = sheet.values().get(spreadsheetId=TARGET_SPREADSHEET_ID,
+                                range=SAMPLE_RANGE_NAME).execute()
+    if 'values' in result:
+        return result['values']
+    else:
+        return []
