@@ -8,3 +8,10 @@ To start, download the corresponding webdriver according to your Chrome version 
 Goto: https://sites.google.com/a/chromium.org/chromedriver/downloads for downloads.
 
 find your Chrome version at: Chrome -> 3 dots at top right -> Settings -> About Chrome
+
+# Pips used:
+
+Google Sheets API
+pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+
+Selenium
